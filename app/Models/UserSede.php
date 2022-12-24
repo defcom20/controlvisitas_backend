@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class UserSede extends Model
 {
     use HasFactory;
 
@@ -17,30 +17,25 @@ class User extends Model
     protected $guarded = [];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
         'id' => 'integer',
-        'tipo_role_id' => 'integer',
+        'user_id' => 'integer',
+        'sede_id' => 'integer',
         'tipo_estado_id' => 'integer',
-        'email_verified_at' => 'timestamp',
     ];
 
-    public function tipoRoles()
+    public function users()
     {
-        return $this->hasMany(TipoRole::class);
+        return $this->hasMany(User::class);
+    }
+
+    public function sedes()
+    {
+        return $this->hasMany(Sede::class);
     }
 
     public function tipoEstados()
@@ -48,9 +43,14 @@ class User extends Model
         return $this->hasMany(TipoEstado::class);
     }
 
-    public function tipoRole()
+    public function user()
     {
-        return $this->belongsTo(TipoRole::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function sede()
+    {
+        return $this->belongsTo(Sede::class);
     }
 
     public function tipoEstado()

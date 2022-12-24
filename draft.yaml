@@ -1,0 +1,84 @@
+models:
+  TipoEstado:
+    nombre: string unique
+    switch: string
+    estado: integer
+  TipoRole:
+    nombre: string
+    tipo_estado_id: id
+    relationships:
+      hasMany: TipoEstado
+  TipoPermiso:
+    nombre: string unique
+    tipo_estado_id: id
+    relationships:
+      hasMany: TipoEstado
+  Sede:
+    nombre: string unique
+    tipo_estado_id: id
+    relationships:
+      hasMany: TipoEstado
+  Area:
+    nombre: string unique
+    tipo_estado_id: id
+    relationships:
+      hasMany: TipoEstado
+  User:
+    uuid: string:100 unique
+    dni: integer nullable
+    nombre: string nullable
+    apellido: string nullable
+    sexo: string nullable
+    usuario: string unique
+    password: string
+    password_unico: string nullable
+    foto: string nullable
+    sede_actual: string nullable
+    tipo_role_id: id
+    tipo_estado_id: id
+    email_verified_at: timestamp nullable
+    remember_token: rememberToken
+    relationships:
+      hasMany: TipoRole, TipoEstado
+  UserSede:
+    user_id: id
+    sede_id: id
+    tipo_estado_id: id
+    relationships:
+      hasMany: User, Sede, TipoEstado
+  Permiso:
+    user_id: id
+    user_sede_id: id
+    habilidades: json
+  Visitante:
+    nombre: string
+    dni: string
+    motivo: string
+    lugar: string
+    hora_ing: string
+    hora_sal: string
+    area_id: id
+    user_id: id
+    sede_id: id
+    tipo_estado_id: id
+    relationships:
+      hasMany: Area, User, Sede, TipoEstado
+controllers:
+  Auth/Auth:
+    resource: api.login, api.register, api.logout
+  Modulo/Usuario/User:
+    resource: api
+  Modulo/Usuario/Permiso:
+    resource: api
+  Modulo/Visitante/Visitante:
+    resource: api
+  Maestro/TipoEquipo:
+    resource: api
+  Maestro/TipoRole:
+    resource: api
+  Maestro/TipoPermiso:
+    resource: api
+  Maestro/Sede:
+    resource: api
+  Maestro/Area:
+    resource: api
