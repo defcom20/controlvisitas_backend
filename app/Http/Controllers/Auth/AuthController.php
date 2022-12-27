@@ -31,4 +31,11 @@ class AuthController extends Controller
             'message' => ['Estas credenciales no coinciden con nuestros registros.']
         ], 404);
     }
+
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
+
+        return $this->successResponse('', 'Se ha cerrado la sesión con éxito y se ha eliminado su token.');
+    }
 }
