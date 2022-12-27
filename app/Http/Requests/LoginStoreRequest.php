@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Maestro;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TipoEquipoStoreRequest extends FormRequest
+class LoginStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,12 +19,13 @@ class TipoEquipoStoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            'tipoEquipo' => ['required'],
+            'usuario' => ['required', 'string', 'max:100'],
+            'password' => ['required', 'string', 'min:6']
         ];
     }
 }

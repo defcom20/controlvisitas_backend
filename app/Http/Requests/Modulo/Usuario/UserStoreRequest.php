@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Modulo\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class UserStoreRequest extends FormRequest
 {
@@ -24,20 +25,11 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => ['required', 'string', 'max:100', 'unique:users,uuid'],
-            'dni' => ['integer'],
             'nombre' => ['string'],
-            'apellido' => ['string'],
-            'sexo' => ['string'],
-            'usuario' => ['required', 'string', 'unique:users,usuario'],
-            'password' => ['required', 'password'],
-            'password_unico' => ['string'],
-            'foto' => ['string'],
-            'sede_actual' => ['string'],
+            'usuario' => ['required', 'string', 'unique:users'],
+            'password' => ['required', Password::min(6)],
             'tipo_role_id' => ['required', 'integer', 'exists:tipo_roles,id'],
-            'tipo_estado_id' => ['required', 'integer', 'exists:tipo_estados,id'],
-            'email_verified_at' => [''],
-            'remember_token' => ['required'],
+            'tipo_estado_id' => ['required', 'integer', 'exists:tipo_estados,id']
         ];
     }
 }

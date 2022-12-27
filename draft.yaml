@@ -72,8 +72,6 @@ controllers:
     resource: api
   Modulo/Visitante/Visitante:
     resource: api
-  Maestro/TipoEquipo:
-    resource: api
   Maestro/TipoRole:
     resource: api
   Maestro/TipoPermiso:

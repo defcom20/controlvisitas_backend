@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
+use App\Support\DataviewerClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Visitante extends Model
 {
-    use HasFactory;
+    use HasFactory, DataviewerClient;
+
+
+    protected $allowedFilters = [
+        'id', 'nombre', 'dni', 'motivo', 'lugar', 'hora_ing', 'hora_sal', 'area_id', 'user_id', 'sede_id', 'tipo_estado_id', 'created_at', 'updated_at'
+    ];
+
+    protected $orderable = [
+        'id', 'nombre', 'dni', 'motivo', 'lugar', 'hora_ing', 'hora_sal', 'area_id', 'user_id', 'sede_id', 'tipo_estado_id', 'created_at', 'updated_at'
+    ];
 
     /**
      * The attributes that aren't mass assignable.

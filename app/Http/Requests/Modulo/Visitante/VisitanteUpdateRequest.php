@@ -28,12 +28,7 @@ class VisitanteUpdateRequest extends FormRequest
             'dni' => ['required', 'string'],
             'motivo' => ['required', 'string'],
             'lugar' => ['required', 'string'],
-            'hora_ing' => ['required', 'string'],
-            'hora_sal' => ['required', 'string'],
-            'area_id' => ['required', 'integer', 'exists:areas,id'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'sede_id' => ['required', 'integer', 'exists:sedes,id'],
-            'tipo_estado_id' => ['required', 'integer', 'exists:tipo_estados,id'],
+            'area_id' => ['required', 'integer', 'exists:areas,id']
         ];
     }
 }

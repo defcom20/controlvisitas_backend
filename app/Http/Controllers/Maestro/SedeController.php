@@ -8,19 +8,40 @@ use App\Http\Requests\Maestro\SedeUpdateRequest;
 use App\Http\Resources\Maestro\SedeCollection;
 use App\Http\Resources\Maestro\SedeResource;
 use App\Models\Sede;
+use App\Models\TipoEstado;
+use App\Models\TipoRole;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class SedeController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\Maestro\SedeCollection
-     */
-    public function index(Request $request)
-    {
-        $sedes = Sede::all();
+    use HttpResponses;
 
-        return new SedeCollection($sedes);
+    protected $sede;
+    protected $estado;
+    protected $tipo_role;
+
+    public function __construct(Sede $sede, TipoRole $tipo_role, TipoEstado $estado)
+    {
+        $this->sede = $sede;
+        $this->estado = $estado;
+        $this->tipo_role = $tipo_role;
+    }
+
+    public function index()
+    {
+        $sede = $this->sede->get();
+        $estado = $this->estado->where("switch", "CRUD")->get();
+        $tipo_role = $this->tipo_role->get();
+        //$estado = $this->estado->get();
+
+        $data = [
+            "sede" => $sede,
+            "estado" => $estado,
+            "rol" => $tipo_role,
+        ];
+
+        return $this->successResponse($data, 'Show sede.');
     }
 
     /**

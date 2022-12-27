@@ -5,22 +5,38 @@ namespace App\Http\Controllers\Maestro;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Maestro\AreaStoreRequest;
 use App\Http\Requests\Maestro\AreaUpdateRequest;
-use App\Http\Resources\Maestro\AreaCollection;
 use App\Http\Resources\Maestro\AreaResource;
 use App\Models\Area;
+use App\Models\TipoEstado;
+use App\Traits\HttpResponses;
+use App\Traits\ValidatePermiso;
 use Illuminate\Http\Request;
 
 class AreaController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\Maestro\AreaCollection
-     */
-    public function index(Request $request)
-    {
-        $areas = Area::all();
+    use HttpResponses, ValidatePermiso;
 
-        return new AreaCollection($areas);
+    protected $area;
+    protected $estado;
+
+    public function __construct(Area $area, TipoEstado $estado)
+    {
+        $this->area = $area;
+        $this->estado = $estado;
+    }
+
+    public function index()
+    {
+        $area = $this->area->get();
+        $estado = $this->estado->where("switch", "CC")->get();
+        //$estado = $this->estado->get();
+
+        $data = [
+            "area" => $area,
+            "estado" => $estado
+        ];
+
+        return $this->successResponse($data, 'Show Area.');
     }
 
     /**
@@ -29,9 +45,7 @@ class AreaController extends Controller
      */
     public function store(AreaStoreRequest $request)
     {
-        $area = Area::create($request->validated());
 
-        return new AreaResource($area);
     }
 
     /**

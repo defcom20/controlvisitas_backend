@@ -2,18 +2,25 @@
 
 namespace App\Models;
 
+use App\Support\DataviewerClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable, DataviewerClient;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
+    protected $allowedFilters = [
+        'id', 'uuid', 'dni', 'nombre', 'apellido', 'sexo', 'usuario', 'password', 'password_unico', 'foto', 'sede_actual', 'tipo_role_id', 'tipo_estado_id', 'email_verified_at', 'remember_token', 'created_at', 'updated_at'
+    ];
+
+    protected $orderable = [
+        'id', 'uuid', 'dni', 'nombre', 'apellido', 'sexo', 'usuario', 'password', 'password_unico', 'foto', 'sede_actual', 'tipo_role_id', 'tipo_estado_id', 'email_verified_at', 'remember_token', 'created_at', 'updated_at'
+    ];
+
     protected $guarded = [];
 
     /**
@@ -56,5 +63,9 @@ class User extends Model
     public function tipoEstado()
     {
         return $this->belongsTo(TipoEstado::class);
+    }
+    public function userSede()
+    {
+        return $this->hasOne(UserSede::class);
     }
 }

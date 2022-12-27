@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Maestro\AreaController;
+use App\Http\Controllers\Maestro\SedeController;
+use App\Http\Controllers\Maestro\TipoPermisoController;
+use App\Http\Controllers\Maestro\TipoRoleController;
+use App\Http\Controllers\Modulo\Usuario\PermisoController;
+use App\Http\Controllers\Modulo\Usuario\UserController;
+use App\Http\Controllers\Modulo\Visitante\VisitanteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,25 +22,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [UserController::class, 'store']);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/marcar/{id}', [VisitanteController::class, 'marcar']);
+
+    Route::apiResources([
+        'user' => UserController::class,
+        'permiso' => PermisoController::class,
+        'visitante' => VisitanteController::class,
+        'tipo-role' => TipoRoleController::class,
+        'tipo-permiso' => TipoPermisoController::class,
+        'sede' => SedeController::class,
+        'area' => AreaController::class,
+    ]);
 });
-
-
-
-
-Route::apiResource('user', App\Http\Controllers\Modulo\Usuario\UserController::class);
-
-Route::apiResource('permiso', App\Http\Controllers\Modulo\Usuario\PermisoController::class);
-
-Route::apiResource('visitante', App\Http\Controllers\Modulo\Visitante\VisitanteController::class);
-
-Route::apiResource('tipo-equipo', App\Http\Controllers\Maestro\TipoEquipoController::class);
-
-Route::apiResource('tipo-role', App\Http\Controllers\Maestro\TipoRoleController::class);
-
-Route::apiResource('tipo-permiso', App\Http\Controllers\Maestro\TipoPermisoController::class);
-
-Route::apiResource('sede', App\Http\Controllers\Maestro\SedeController::class);
-
-Route::apiResource('area', App\Http\Controllers\Maestro\AreaController::class);
